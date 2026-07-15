@@ -1,130 +1,90 @@
-// Arreglo Bidimensional de Inventario [ISBN, Titulo, Año]
+
+// CLASE LIBRO 
+class Libro {
+    constructor(codigo, titulo, anio) {
+        this.codigo = codigo;
+        this.titulo = titulo;
+        this.anio = anio;
+    }
+
+    // Método para convertir a arreglo (compatibilidad con tabla)
+    toArray() {
+        return [this.codigo, this.titulo, this.anio];
+    }
+}
+
+// ARREGLO DE LIBROS POR DEFECTO (instancias)
+
 let inventario = [
-    ["978-0451524935", "1984", 1949],
-    ["978-0307474728", "Cien años de soledad", 1967],
-    ["978-8497592858", "El origen de las especies", 1859],
-    ["978-1285740621", "Calculus", 2015],
-    ["978-8424116019", "Don Quijote de la Mancha", 1605],
-    ["978-8437604947", "Pedro Páramo", 1955],
-    ["978-8420412146", "La ciudad y los perros", 1963],
-    ["978-8437600864", "Rayuela", 1963],
-    ["978-1400034932", "El amor en los tiempos del cólera", 1985],
-    ["978-8408059660", "La sombra del viento", 2001],
-    ["978-0140449136", "Crimen y castigo", 1866],
-    ["978-0743273565", "El gran Gatsby", 1925],
-    ["978-0199535569", "Orgullo y prejuicio", 1813],
-    ["978-0141439518", "Moby Dick", 1851],
-    ["978-0140449266", "Los miserables", 1862],
-    ["978-0140441048", "Madame Bovary", 1857],
-    ["978-0140444179", "Guerra y paz", 1869],
-    ["978-0143035008", "Anna Karenina", 1877],
-    ["978-0374528379", "Los hermanos Karamazov", 1880],
-    ["978-0141439570", "Frankenstein", 1818],
-    ["978-0141439846", "Drácula", 1897],
-    ["978-0141439594", "Jane Eyre", 1847],
-    ["978-0141439556", "Cumbres borrascosas", 1847],
-    ["978-0141321066", "El retrato de Dorian Gray", 1890],
-    ["978-0141439730", "La isla del tesoro", 1883],
-    ["978-0142437179", "Las aventuras de Huckleberry Finn", 1884],
-    ["978-0141441672", "La máquina del tiempo", 1895],
-    ["978-0141441030", "La guerra de los mundos", 1898],
-    ["978-0060850524", "Un mundo feliz", 1932],
-    ["978-0451526342", "Rebelión en la granja", 1945],
-    ["978-0547928227", "El hobbit", 1937],
-    ["978-0544003415", "El señor de los anillos", 1954],
-    ["978-0061120084", "Matar a un ruiseñor", 1960],
-    ["978-1451673319", "Fahrenheit 451", 1953],
-    ["978-0399501487", "El señor de las moscas", 1954],
-    ["978-0679723189", "Lolita", 1955],
-    ["978-0140283297", "En el camino", 1957],
-    ["978-0316769488", "El guardián entre el centeno", 1951],
-    ["978-0684801223", "Ulises", 1922],
-    ["978-8420654003", "La Odisea", 1990],
-    ["978-8420636047", "Divina Comedia", 1995],
-    ["978-8420652030", "Hamlet", 1992],
-    ["978-0140439144", "El corazón de las tinieblas", 1899],
-    ["978-0141321059", "Dr. Jekyll y Mr. Hyde", 1886],
-    ["978-0141441276", "La llamada de lo salvaje", 1903],
-    ["978-0140439021", "Peter Pan", 1911],
-    ["978-0143039433", "El viento en los sauces", 1908],
-    ["978-8423348572", "Ficciones", 1944],
-    ["978-8437600871", "El Aleph", 1949],
-    ["978-0062316097", "Sapiens", 2011]
+    new Libro("978-0451524935", "1984", 1949),
+    new Libro("978-0307474728", "Cien años de soledad", 1967),
+    new Libro("978-8497592858", "El origen de las especies", 1859),
+    new Libro("978-1285740621", "Calculus", 2015),
+    new Libro("978-8424116019", "Don Quijote de la Mancha", 1605),
+    new Libro("978-8437604947", "Pedro Páramo", 1955),
+    new Libro("978-8420412146", "La ciudad y los perros", 1963),
+    new Libro("978-8437600864", "Rayuela", 1963),
+    new Libro("978-0062316097", "Sapiens", 2011),
+    new Libro("978-0140449136", "Crimen y castigo", 1866)
 ];
 
-// Variables globales para controlar el ordenamiento
+// =========================================
+// CONTROL DE ORDENAMIENTO
+// =========================================
 let ordenActual = {
-    columna: 'anio', // 'codigo', 'titulo', 'anio'
-    ascendente: true // true = ascendente, false = descendente
+    columna: 'anio',
+    ascendente: true
 };
 
-// Función principal: Ordenar por cualquier criterio
+// =========================================
+// FUNCIONES DE ORDENAMIENTO (Burbuja con WHILE)
+// =========================================
 function ordenarPor(columna) {
-    // Si ya está ordenando por esta columna, invertir el orden
     if (ordenActual.columna === columna) {
         ordenActual.ascendente = !ordenActual.ascendente;
     } else {
         ordenActual.columna = columna;
         ordenActual.ascendente = true;
     }
-    
     aplicarOrdenamientoBurbuja();
     actualizarIndicadores();
 }
 
-// Función: Invertir el orden actual
 function invertirOrden() {
     ordenActual.ascendente = !ordenActual.ascendente;
     aplicarOrdenamientoBurbuja();
     actualizarIndicadores();
 }
 
-// Función: Aplicar ordenamiento burbuja según el criterio actual
 function aplicarOrdenamientoBurbuja() {
     let n = inventario.length;
     let swapped;
     let i = 0;
-    
-    // Determinar qué índice comparar según la columna
+
     let indiceComparacion;
-    switch(ordenActual.columna) {
-        case 'codigo':
-            indiceComparacion = 0;
-            break;
-        case 'titulo':
-            indiceComparacion = 1;
-            break;
-        case 'anio':
-            indiceComparacion = 2;
-            break;
+    switch (ordenActual.columna) {
+        case 'codigo': indiceComparacion = 'codigo'; break;
+        case 'titulo': indiceComparacion = 'titulo'; break;
+        case 'anio':   indiceComparacion = 'anio';   break;
     }
-    
-    // Ordenamiento Burbuja con WHILE
-    while(i < n - 1) {
+
+    while (i < n - 1) {
         swapped = false;
         for (let j = 0; j < n - i - 1; j++) {
             let valor1 = inventario[j][indiceComparacion];
             let valor2 = inventario[j + 1][indiceComparacion];
-            
-            // Comparación según el tipo de dato
             let debeIntercambiar = false;
-            
+
             if (typeof valor1 === 'string') {
-                // Comparación de strings (código o título)
-                if (ordenActual.ascendente) {
-                    debeIntercambiar = valor1 > valor2;
-                } else {
-                    debeIntercambiar = valor1 < valor2;
-                }
+                debeIntercambiar = ordenActual.ascendente
+                    ? valor1 > valor2
+                    : valor1 < valor2;
             } else {
-                // Comparación de números (año)
-                if (ordenActual.ascendente) {
-                    debeIntercambiar = valor1 > valor2;
-                } else {
-                    debeIntercambiar = valor1 < valor2;
-                }
+                debeIntercambiar = ordenActual.ascendente
+                    ? valor1 > valor2
+                    : valor1 < valor2;
             }
-            
+
             if (debeIntercambiar) {
                 let temp = inventario[j];
                 inventario[j] = inventario[j + 1];
@@ -135,42 +95,117 @@ function aplicarOrdenamientoBurbuja() {
         if (!swapped) break;
         i++;
     }
-    
     renderizarTabla();
-    console.log(`Ordenado por ${ordenActual.columna} (${ordenActual.ascendente ? 'ascendente' : 'descendente'})`);
+    console.log(`Ordenado por ${ordenActual.columna} (${ordenActual.ascendente ? 'ASC' : 'DESC'})`);
 }
 
-// Función: Actualizar indicadores visuales
 function actualizarIndicadores() {
-    // Limpiar todos los indicadores
     document.getElementById('ind-codigo').textContent = '';
     document.getElementById('ind-titulo').textContent = '';
     document.getElementById('ind-anio').textContent = '';
-    
-    // Mostrar indicador en la columna activa
     let indicador = ordenActual.ascendente ? '▲' : '▼';
     document.getElementById(`ind-${ordenActual.columna}`).textContent = indicador;
 }
 
-// Función: Renderizar con forEach
+// =========================================
+// RENDERIZAR TABLA (con botón eliminar)
+// =========================================
 function renderizarTabla() {
     const tbody = document.querySelector('#tabla-inventario tbody');
-    if(!tbody) return;
+    if (!tbody) return;
     tbody.innerHTML = "";
-    
-    inventario.forEach(fila => {
+
+    inventario.forEach((libro, index) => {
         let tr = document.createElement('tr');
-        fila.forEach(dato => {
-            let td = document.createElement('td');
-            td.textContent = dato;
-            tr.appendChild(td);
-        });
+        tr.innerHTML = `
+            <td>${libro.codigo}</td>
+            <td>${libro.titulo}</td>
+            <td>${libro.anio}</td>
+            <td><button class="btn-eliminar" onclick="eliminarLibro(${index})"> Eliminar</button></td>
+        `;
         tbody.appendChild(tr);
     });
 }
 
-// Inicializar
+// =========================================
+// INSERTAR LIBRO (desde formulario)
+// =========================================
+function agregarLibro() {
+    const codigo = document.getElementById('nuevoCodigo').value.trim();
+    const titulo = document.getElementById('nuevoTitulo').value.trim();
+    const anio   = parseInt(document.getElementById('nuevoAnio').value);
+
+    if (!codigo || !titulo || isNaN(anio)) {
+        alert("⚠️ Complete todos los campos correctamente.");
+        return;
+    }
+
+    // Validar código duplicado
+    const existe = inventario.some(l => l.codigo === codigo);
+    if (existe) {
+        alert("⚠️ Ya existe un libro con ese código.");
+        return;
+    }
+
+    // Crear instancia de la clase Libro e insertar
+    const nuevoLibro = new Libro(codigo, titulo, anio);
+    inventario.push(nuevoLibro);
+
+    // Limpiar formulario y actualizar
+    document.getElementById('nuevoCodigo').value = '';
+    document.getElementById('nuevoTitulo').value = '';
+    document.getElementById('nuevoAnio').value = '';
+
+    aplicarOrdenamientoBurbuja(); // Re-ordena y renderiza
+    console.log(`✅ Libro agregado: ${nuevoLibro.titulo}`);
+}
+
+// =========================================
+// ELIMINAR LIBRO
+// =========================================
+function eliminarLibro(index) {
+    const libro = inventario[index];
+    if (confirm(`¿Eliminar "${libro.titulo}"?`)) {
+        inventario.splice(index, 1);
+        renderizarTabla();
+        console.log(`🗑️ Libro eliminado: ${libro.titulo}`);
+    }
+}
+
+// =========================================
+// BUSCAR LIBRO
+// =========================================
+function buscarLibro() {
+    const texto = document.getElementById('buscarInput').value.toLowerCase().trim();
+    const tbody = document.querySelector('#tabla-inventario tbody');
+    tbody.innerHTML = "";
+
+    const resultados = inventario.filter(libro =>
+        libro.codigo.toLowerCase().includes(texto) ||
+        libro.titulo.toLowerCase().includes(texto) ||
+        libro.anio.toString().includes(texto)
+    );
+
+    if (resultados.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;">Sin resultados</td></tr>`;
+        return;
+    }
+
+    resultados.forEach((libro, indexOriginal) => {
+        const realIndex = inventario.indexOf(libro);
+        let tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>${libro.codigo}</td>
+            <td>${libro.titulo}</td>
+            <td>${libro.anio}</td>
+            <td><button class="btn-eliminar" onclick="eliminarLibro(${realIndex})"> Eliminar</button></td>
+        `;
+        tbody.appendChild(tr);
+    });
+}
+
+// INICIALIZAR
 document.addEventListener('DOMContentLoaded', () => {
-    renderizarTabla();
+    aplicarOrdenamientoBurbuja();
     actualizarIndicadores();
 });
