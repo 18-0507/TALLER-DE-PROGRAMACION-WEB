@@ -40,24 +40,24 @@
 ---
 
 ## 🏗️ Arquitectura y Estructura del Proyecto
-El proyecto sigue una arquitectura modular para separar responsabilidades y facilitar el mantenimiento.
-text
-biblioteca-digital/
-├── css/ # Hojas de estilo modulares
-│ ├── global.css # Variables CSS (:root), Reset, Layouts base, Componentes globales
-│ ├── autores.css # Estilos específicos para Grid de autores
-│ ├── generos.css # Estilos específicos para Flexbox de géneros
-│ └── quizz.css # Estilos para la gamificación
-├── js/ # Lógica de negocio y manipulación DOM
-│ ├── global.js # Inyección de Header, Menú Hamburguesa, DOM Tree Traversal
-│ ├── catalogo-avanzado.js # Algoritmo de ordenamiento (Burbuja) sobre Matrices
-│ ├── multas.js # Lógica de cálculo con switch y validaciones
-│ ├── reserva.js # Validación de formularios y control de Modales
-│ ├── configuration.js # Objeto JSON para traducciones y manipulación de temas
-│ └── quizz-*.js # Motores de evaluación con arreglos de objetos
-├── images/ & videos/ # Assets multimedia optimizados
-├── index.html # Landing Page (Punto de entrada)
-└── [modulos].html # Páginas de módulos (Catálogo, Perfil, Quizzes, etc.)
+* El proyecto sigue una arquitectura modular para separar responsabilidades y facilitar el mantenimiento.
+
+* biblioteca-digital/
+* ├── css/ # Hojas de estilo modulares
+* │ ├── global.css # Variables CSS (:root), Reset, Layouts base, Componentes globales
+* │ ├── autores.css # Estilos específicos para Grid de autores
+* │ ├── generos.css # Estilos específicos para Flexbox de géneros
+* │ └── quizz.css # Estilos para la gamificación
+* ├── js/ # Lógica de negocio y manipulación DOM
+* │ ├── global.js # Inyección de Header, Menú Hamburguesa, DOM Tree Traversal
+* │ ├── catalogo-avanzado.js # Algoritmo de ordenamiento (Burbuja) sobre Matrices
+* │ ├── multas.js # Lógica de cálculo con switch y validaciones
+* │ ├── reserva.js # Validación de formularios y control de Modales
+* │ ├── configuration.js # Objeto JSON para traducciones y manipulación de temas
+* │ └── quizz-*.js # Motores de evaluación con arreglos de objetos
+* ├── images/ & videos/ # Assets multimedia optimizados
+* ├── index.html # Landing Page (Punto de entrada)
+* └── [modulos].html # Páginas de módulos (Catálogo, Perfil, Quizzes, etc.)
 
 ---
 
