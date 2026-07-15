@@ -10,7 +10,6 @@
 
 <body>
     <!-- <header> global.js </header>-->
-
     <marquee class="aviso-catalogo" behavior="scroll" direction="left">
         Nuevos ingresos: Tecnología, Ciencia Ficción y Desarrollo Personal | Usa los filtros para refinar búsquedas |
         Préstamo digital gratuito para estudiantes
@@ -205,96 +204,118 @@
     </main>
 
     <section style="margin: 2rem 0; text-align: center;">
-        <style>
-            #tabla-inventario {
-                margin: 1rem auto;
-                width: 90%;
-                max-width: 500px;
-                border-collapse: collapse;
-                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            }
+<style>
+#tabla-inventario {
+    margin: 1rem auto; width: 90%; max-width: 700px;
+    border-collapse: collapse; box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+#tabla-inventario th, #tabla-inventario td {
+    padding: 0.8rem; text-align: left; border-bottom: 1px solid #ddd;
+}
+#tabla-inventario th {
+    background: var(--primary); color: white;
+    cursor: pointer; user-select: none;
+}
+#tabla-inventario th:hover { background: var(--secondary); }
+#tabla-inventario tr:hover { background: #f5f5f5; }
+.btn-ordenar {
+    margin: 0.3rem; padding: 0.5rem 1rem;
+    background: var(--secondary); color: white; border: none;
+    border-radius: 4px; cursor: pointer; font-size: 0.9rem;
+}
+.btn-ordenar:hover { background: var(--primary); }
+.indicador-orden { font-size: 0.8rem; margin-left: 0.3rem; }
 
-            #tabla-inventario th,
-            #tabla-inventario td {
-                padding: 0.8rem;
-                text-align: left;
-                border-bottom: 1px solid #ddd;
-            }
+/* Formulario de inserción */
+.form-libro {
+    background: #fff; padding: 1.5rem; border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1); max-width: 700px;
+    margin: 1rem auto; display: grid;
+    grid-template-columns: 1fr 1fr 1fr auto; gap: 0.8rem;
+    align-items: end;
+}
+.form-libro input {
+    padding: 0.5rem; border: 1px solid var(--border); border-radius: 4px;
+}
+.form-libro button {
+    background: var(--accent); color: white; border: none;
+    padding: 0.6rem 1.2rem; border-radius: 4px; cursor: pointer;
+    font-weight: bold;
+}
+.form-libro button:hover { background: #922b21; }
 
-            #tabla-inventario th {
-                background: var(--primary);
-                color: white;
-                cursor: pointer;
-                user-select: none;
-            }
+/* Buscador */
+.buscador-libro {
+    max-width: 700px; margin: 1rem auto;
+    display: flex; gap: 0.5rem;
+}
+.buscador-libro input {
+    flex: 1; padding: 0.5rem; border: 1px solid var(--border); border-radius: 4px;
+}
+.buscador-libro button {
+    background: var(--primary); color: white; border: none;
+    padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer;
+}
 
-            #tabla-inventario th:hover {
-                background: var(--secondary);
-            }
+/* Botón eliminar */
+.btn-eliminar {
+    background: var(--accent); color: white; border: none;
+    padding: 0.3rem 0.7rem; border-radius: 4px; cursor: pointer;
+    font-size: 0.85rem;
+}
+.btn-eliminar:hover { background: #922b21; }
 
-            #tabla-inventario tr:hover {
-                background: #f5f5f5;
-            }
+@media (max-width: 768px) {
+    .form-libro { grid-template-columns: 1fr; }
+}
+</style>
 
-            .btn-ordenar {
-                margin: 0.3rem;
-                padding: 0.5rem 1rem;
-                background: var(--secondary);
-                color: white;
-                border: none;
-                border-radius: 4px;
-                cursor: pointer;
-                font-size: 0.9rem;
-            }
+<h3>Gestión de Inventario</h3>
 
-            .btn-ordenar:hover {
-                background: var(--primary);
-            }
+<!-- FORMULARIO DE INSERCIÓN -->
+<form class="form-libro" onsubmit="event.preventDefault(); agregarLibro();">
+    <div>
+        <label>Código / ISBN</label>
+        <input type="text" id="nuevoCodigo" placeholder="Ej: 978-12345" required>
+    </div>
+    <div>
+        <label>Título</label>
+        <input type="text" id="nuevoTitulo" placeholder="Ej: 1984" required>
+    </div>
+    <div>
+        <label>Año</label>
+        <input type="number" id="nuevoAnio" placeholder="Ej: 1949" min="1000" max="2030" required>
+    </div>
+    <button type="submit">➕ Agregar</button>
+</form>
 
-            .btn-ordenar.activo {
-                background: var(--accent);
-            }
+<!-- BUSCADOR -->
+<div class="buscador-libro">
+    <input type="text" id="buscarInput" placeholder="🔍 Buscar por código, título o año..." oninput="buscarLibro()">
+    <button onclick="buscarLibro()">Buscar</button>
+</div>
 
-            .indicador-orden {
-                font-size: 0.8rem;
-                margin-left: 0.3rem;
-            }
-        </style>
+<!-- BOTONES DE ORDENAMIENTO -->
+<div style="margin: 1rem 0;">
+    <button class="btn-ordenar" onclick="ordenarPor('codigo')">Ordenar por Código</button>
+    <button class="btn-ordenar" onclick="ordenarPor('titulo')">Ordenar por Título</button>
+    <button class="btn-ordenar" onclick="ordenarPor('anio')">Ordenar por Año</button>
+    <button class="btn-ordenar" onclick="invertirOrden()">Invertir Orden ↕</button>
+</div>
 
-        <h3>- Inventario -</h3>
-
-        <div style="margin: 1rem 0;">
-            <button class="btn-ordenar" onclick="ordenarPor('codigo')">
-                Ordenar por Código
-            </button>
-            <button class="btn-ordenar" onclick="ordenarPor('titulo')">
-                Ordenar por Título
-            </button>
-            <button class="btn-ordenar" onclick="ordenarPor('anio')">
-                Ordenar por Año
-            </button>
-            <button class="btn-ordenar" onclick="invertirOrden()">
-                Invertir Orden ↕
-            </button>
-        </div>
-
-        <table id="tabla-inventario">
-            <thead>
-                <tr>
-                    <th onclick="ordenarPor('codigo')">
-                        ISBN <span class="indicador-orden" id="ind-codigo"></span>
-                    </th>
-                    <th onclick="ordenarPor('titulo')">
-                        Título <span class="indicador-orden" id="ind-titulo"></span>
-                    </th>
-                    <th onclick="ordenarPor('anio')">
-                        Año <span class="indicador-orden" id="ind-anio"></span>
-                    </th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-    </section>
+<!-- TABLA -->
+<table id="tabla-inventario">
+    <thead>
+        <tr>
+            <th onclick="ordenarPor('codigo')">ISBN <span class="indicador-orden" id="ind-codigo"></span></th>
+            <th onclick="ordenarPor('titulo')">Título <span class="indicador-orden" id="ind-titulo"></span></th>
+            <th onclick="ordenarPor('anio')">Año <span class="indicador-orden" id="ind-anio"></span></th>
+            <th>Acción</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+</section>
     <script src="js/catalogo-avanzado.js"></script>
 
     <script src="js/catalogo.js"></script>
