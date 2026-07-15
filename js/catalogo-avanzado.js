@@ -28,17 +28,13 @@ let inventario = [
     new Libro("978-0140449136", "Crimen y castigo", 1866)
 ];
 
-// =========================================
 // CONTROL DE ORDENAMIENTO
-// =========================================
 let ordenActual = {
     columna: 'anio',
     ascendente: true
 };
 
-// =========================================
 // FUNCIONES DE ORDENAMIENTO (Burbuja con WHILE)
-// =========================================
 function ordenarPor(columna) {
     if (ordenActual.columna === columna) {
         ordenActual.ascendente = !ordenActual.ascendente;
@@ -107,9 +103,7 @@ function actualizarIndicadores() {
     document.getElementById(`ind-${ordenActual.columna}`).textContent = indicador;
 }
 
-// =========================================
 // RENDERIZAR TABLA (con botón eliminar)
-// =========================================
 function renderizarTabla() {
     const tbody = document.querySelector('#tabla-inventario tbody');
     if (!tbody) return;
@@ -127,9 +121,7 @@ function renderizarTabla() {
     });
 }
 
-// =========================================
 // INSERTAR LIBRO (desde formulario)
-// =========================================
 function agregarLibro() {
     const codigo = document.getElementById('nuevoCodigo').value.trim();
     const titulo = document.getElementById('nuevoTitulo').value.trim();
@@ -160,9 +152,7 @@ function agregarLibro() {
     console.log(`✅ Libro agregado: ${nuevoLibro.titulo}`);
 }
 
-// =========================================
 // ELIMINAR LIBRO
-// =========================================
 function eliminarLibro(index) {
     const libro = inventario[index];
     if (confirm(`¿Eliminar "${libro.titulo}"?`)) {
@@ -172,9 +162,7 @@ function eliminarLibro(index) {
     }
 }
 
-// =========================================
 // BUSCAR LIBRO
-// =========================================
 function buscarLibro() {
     const texto = document.getElementById('buscarInput').value.toLowerCase().trim();
     const tbody = document.querySelector('#tabla-inventario tbody');
